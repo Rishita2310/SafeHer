@@ -9,4 +9,4 @@ class Journey(models.Model):
     start_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20,default="Active")
     def __str__(self):
-        return f"{self.source} -> {self.destination}"
+        return f"{self.source} -> {self.destination}" 
