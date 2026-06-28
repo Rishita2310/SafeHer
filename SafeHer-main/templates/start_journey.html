@@ -2,100 +2,75 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Journey</title>
-    <link rel="stylesheet" href="{% static 'css/features.css' %}">
+<title>Journey</title>
+<link rel="stylesheet" href="{% static 'css/features.css' %}">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1 class="page-title">
-        🚖 Start Journey
-    </h1>
+<h1 class="page-title">
+🚖 Start Journey
+</h1>
 
-    <div class="card">
+<div class="card">
+<form method="POST">
 
-        <form method="POST">
+{% csrf_token %}
 
-            {% csrf_token %}
+<input type="text"
+name="source"
+placeholder="Source">
 
-            <input
-                type="text"
-                name="source"
-                placeholder="Enter Source"
-                required>
+<input type="text"
+name="destination"
+placeholder="Destination">
 
-            <input
-                type="text"
-                name="destination"
-                placeholder="Enter Destination"
-                required>
+<select name="transport">
 
-            <select name="transport">
+<option>Car</option>
+<option>Bus</option>
+<option>Train</option>
 
-                <option value="Car">Car</option>
-                <option value="Bus">Bus</option>
-                <option value="Train">Train</option>
+</select>
 
-            </select>
+<button class="btn">
+Start Journey
+</button>
 
-            <button class="btn" type="submit">
-                Start Journey
-            </button>
+</form>
 
-        </form>
+<table>
 
-        <br><br>
+<tr>
+<th>Source</th>
+<th>Destination</th>
+<th>Transport</th>
+<th>Status</th>
+</tr>
 
-        <table>
+{% for j in journeys %}
 
-            <tr>
-                <th>Source</th>
-                <th>Destination</th>
-                <th>Transport</th>
-                <th>Status</th>
-            </tr>
+<tr>
+<td>{{ j.source }}</td>
+<td>{{ j.destination }}</td>
+<td>{{ j.transport_mode }}</td>
+<td>{{ j.status }}</td>
+</tr>
 
-            {% for j in journeys %}
+{% endfor %}
 
-            <tr>
-                <td>{{ j.source }}</td>
-                <td>{{ j.destination }}</td>
-                <td>{{ j.transport_mode }}</td>
-                <td>{{ j.status }}</td>
-            </tr>
-
-            {% empty %}
-
-            <tr>
-                <td colspan="4" style="text-align:center;">
-                    No journeys yet.
-                </td>
-            </tr>
-
-            {% endfor %}
-
-        </table>
-
-    </div>
+</table>
 
 </div>
 
-<div class="nav-links" style="text-align:center; margin:20px 0;">
+</div>
+<div class="nav-links">
     <a href="/dashboard/" class="btn">
-        ← Back to Dashboard
+        Back to Dashboard
     </a>
 </div>
-
-{% if google_url %}
-<script>
-    window.open("{{ google_url }}", "_blank");
-</script>
-{% endif %}
-
 </body>
-
 </html>

@@ -10,9 +10,8 @@ class UserProfile(models.Model):
         return self.name
 
 class EmergencyContact(models.Model):
-    user = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     contact_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
     relationship = models.CharField(max_length=50)
-    def __str__(self):
-        return self.contact_name
+    is_trusted = models.BooleanField(default=False)

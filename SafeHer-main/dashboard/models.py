@@ -8,4 +8,3 @@ class SOSAlert(models.Model):
     latitude = models.CharField(max_length=50, blank=True, null=True)
     longitude = models.CharField(max_length=50, blank=True, null=True)
     location = models.TextField(blank=True, null=True)
-
