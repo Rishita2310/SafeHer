@@ -131,8 +131,8 @@ EMAIL_PORT=587
 
 EMAIL_USE_TLS=True
 
-EMAIL_HOST_USER='ishaagarwal4688@gmail.com'
+EMAIL_HOST_USER='rishitabhuva@gmail.com'
 
-EMAIL_HOST_PASSWORD='sqqjajdoqmgyahor'
+EMAIL_HOST_PASSWORD='iadpvycxzxdiantk'
 
 DEFAULT_FROM_EMAIL=EMAIL_HOST_USER

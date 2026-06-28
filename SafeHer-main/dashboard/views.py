@@ -1,49 +1,9 @@
-# from django.shortcuts import render
-# from .models import SOSAlert
-
-
-# def dashboard_page(request):
-#     return render(request,'dashboard.html')
-
-# def sos_page(request):
-
-#     if request.method == "POST":
-
-#         SOSAlert.objects.create(
-#             location="Ahmedabad"
-#         )
-
-#     alerts = SOSAlert.objects.all()
-
-#     return render(
-#         request,
-#         "sos.html",
-#         {"alerts": alerts}
-#     )
-
-# def contacts_page(request):
-#     return render(request,'contacts.html')
-
-# def journey_page(request):
-#     return render(request,'start_journey.html')
-
-# def places_page(request):
-#     return render(request,'safe_places.html')
-
-# def reports_page(request):
-#     return render(request,'report.html')
-
-# def history_page(request):
-#     return render(request,'journey_status.html')
-
-
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import SOSAlert
 from journey.models import Journey
 from authentication.models import EmergencyContact, UserProfile
 from reports.models import UnsafeReport
 from urllib.parse import quote
-from django.shortcuts import get_object_or_404, redirect
 
 
 
@@ -55,18 +15,7 @@ def add_trusted_contact(request):
         contact.save()
 
     return redirect("/dashboard/")
-# def dashboard(request):
-#     journey_count = Journey.objects.filter(user=request.user).count()
-#     contact_count = EmergencyContact.objects.filter(user=request.user).count()
-#     sos_count = SOSAlert.objects.filter(user=request.user).count()
 
-#     context = {
-#         "journey_count": journey_count,
-#         "contact_count": contact_count,
-#         "sos_count": sos_count,
-#     }
-
-#     return render(request, "dashboard.html", context)
 def dashboard_page(request):
     journey_count = Journey.objects.count()
     contact_count = EmergencyContact.objects.count()
