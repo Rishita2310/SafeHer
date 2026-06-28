@@ -44,9 +44,30 @@ from authentication.models import EmergencyContact, UserProfile
 from reports.models import UnsafeReport
 from urllib.parse import quote
 
+# def dashboard(request):
+#     journey_count = Journey.objects.filter(user=request.user).count()
+#     contact_count = EmergencyContact.objects.filter(user=request.user).count()
+#     sos_count = SOSAlert.objects.filter(user=request.user).count()
 
+#     context = {
+#         "journey_count": journey_count,
+#         "contact_count": contact_count,
+#         "sos_count": sos_count,
+#     }
+
+#     return render(request, "dashboard.html", context)
 def dashboard_page(request):
-    return render(request,'dashboard.html')
+    journey_count = Journey.objects.count()
+    contact_count = EmergencyContact.objects.count()
+    sos_count = SOSAlert.objects.count()
+
+    context = {
+        "journey_count": journey_count,
+        "contact_count": contact_count,
+        "sos_count": sos_count,
+    }
+
+    return render(request, "dashboard.html", context)
 
 def sos_page(request):
     if request.method=="POST":
