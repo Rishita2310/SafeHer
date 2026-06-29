@@ -10,4 +10,5 @@ urlpatterns = [
     path('places/', places_page),
     path('reports/', reports_page),
     path('history/', history_page),
+    path('add_trusted_contact/', add_trusted_contact, name='add_trusted_contact'),
 ]
