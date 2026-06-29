@@ -121,7 +121,7 @@
     </div>
 
 
-    <div class="quick-section">
+    <!-- <div class="quick-section">
 
         <h2>
             Trusted Contacts
@@ -135,7 +135,31 @@
             Best Friend — 9876543210
         </div>
 
-    </div>
+    </div> -->
+
+    <div class="quick-section">
+
+    <h2>Trusted Contacts</h2>
+    <div class
+    {% if contact %}
+
+        {% for person in contact %}
+
+            <div class="contact-box">
+                <strong>{{ person.contact_name }}</strong> • {{ person.phone_number }} • {{ person.relationship }}
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="contact-box">
+            No Trusted Contacts Added
+        </div>
+
+    {% endif %}
+
+</div>
 
 </div>
 
