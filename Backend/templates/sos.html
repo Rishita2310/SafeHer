@@ -1,0 +1,252 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Emergency SOS</title>
+
+    <link rel="stylesheet" href="{% static 'css/features.css' %}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 class="page-title">
+        🚨 Emergency SOS
+    </h1>
+
+    <div class="card">
+
+        <h2>Need Immediate Help?</h2>
+
+        <p>
+            Press the SOS button below.
+            You will get <b>10 seconds</b> to cancel before the alert is sent automatically.
+        </p>
+
+        <br>
+
+        <form method="POST" id="sosForm">
+
+            {% csrf_token %}
+
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+            <input type="hidden" name="location" id="location">
+
+            <button
+                type="button"
+                class="btn"
+                id="sosBtn"
+                onclick="startSOS()">
+
+                🚨 SEND SOS
+
+            </button>
+
+        </form>
+
+        <br>
+
+        <h3 id="countdownText" style="display:none;color:red;">
+            Sending SOS in
+            <span id="countdown">10</span>
+            seconds...
+        </h3>
+
+    </div>
+
+    <div class="card">
+
+        <h2>📞 Emergency Helpline Numbers</h2>
+
+        <table>
+
+            <tr>
+                <th>Service</th>
+                <th>Number</th>
+            </tr>
+
+            <tr>
+                <td>🚓 Police</td>
+                <td><a href="tel:100">100</a></td>
+            </tr>
+
+            <tr>
+                <td>🚑 Ambulance</td>
+                <td><a href="tel:108">108</a></td>
+            </tr>
+
+            <tr>
+                <td>🚒 Fire Brigade</td>
+                <td><a href="tel:101">101</a></td>
+            </tr>
+
+            <tr>
+                <td>👩 Women Helpline</td>
+                <td><a href="tel:1091">1091</a></td>
+            </tr>
+
+            <tr>
+                <td>🆘 National Emergency</td>
+                <td><a href="tel:112">112</a></td>
+            </tr>
+
+            <tr>
+                <td>👧 Child Helpline</td>
+                <td><a href="tel:1098">1098</a></td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>📋 SOS History</h2>
+
+        <table>
+
+            <tr>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Location</th>
+            </tr>
+
+            {% for alert in alerts %}
+
+            <tr>
+
+                <td>{{ alert.alert_time }}</td>
+
+                <td>{{ alert.status }}</td>
+
+                <td>{{ alert.location }}</td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3">
+
+                    No SOS Alerts Yet
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <div class="nav-links">
+
+        <a href="/dashboard/" class="btn">
+
+            ⬅ Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+let seconds = 10;
+
+let timer;
+
+if (navigator.geolocation){
+
+    navigator.geolocation.getCurrentPosition(function(position){
+
+        let lat = position.coords.latitude;
+
+        let lon = position.coords.longitude;
+
+        document.getElementById("latitude").value = lat;
+
+        document.getElementById("longitude").value = lon;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            document.getElementById("location").value = data.display_name;
+
+        });
+
+    });
+
+}
+
+function startSOS(){
+
+    document.getElementById("countdownText").style.display="block";
+
+    const btn=document.getElementById("sosBtn");
+
+    btn.innerHTML="❌ CANCEL SOS";
+
+    btn.onclick=cancelSOS;
+
+    document.body.style.background="#ffe6e6";
+
+    timer=setInterval(function(){
+
+        seconds--;
+
+        document.getElementById("countdown").innerHTML=seconds;
+
+        if(seconds<=0){
+
+            clearInterval(timer);
+
+            document.getElementById("sosForm").submit();
+
+        }
+
+    },1000);
+
+}
+
+function cancelSOS(){
+
+    clearInterval(timer);
+
+    seconds=10;
+
+    document.getElementById("countdown").innerHTML=10;
+
+    document.getElementById("countdownText").style.display="none";
+
+    const btn=document.getElementById("sosBtn");
+
+    btn.innerHTML="🚨 SEND SOS";
+
+    btn.onclick=startSOS;
+
+    document.body.style.background="white";
+
+}
+
+</script>
+
+</body>
+
+</html>
